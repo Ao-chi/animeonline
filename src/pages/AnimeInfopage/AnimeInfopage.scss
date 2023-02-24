@@ -1,0 +1,307 @@
+@import "/src/assets/sass/abstracts/functions";
+@import "/src/assets/sass/abstracts/mixins";
+@import "/src/assets/sass/abstracts/variables";
+
+.info-page {
+    padding-top: $p-0 !important;
+}
+
+.bg-cover {
+    position: relative;
+    padding-bottom: 530px;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    transition: all ease 0.2s;
+
+    .cover {
+        @include pos-absolute(0, 0, 0, 0);
+        width: 100%;
+        height: 100%;
+
+        .overlay--blur {
+            @include pos-absolute(0, 0, 0, 0);
+
+            background: rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2.1px);
+            -webkit-backdrop-filter: blur(2.1px);
+
+            &::after {
+                content: "";
+                @include pos-absolute(0, 0, 0, 0);
+                background: rgb(20, 20, 20);
+                background: linear-gradient(
+                    180deg,
+                    rgba(20, 20, 20, 1) 0%,
+                    rgba(18, 18, 18, 0.5854051093093487) 20%,
+                    rgba(97, 97, 97, 0.14843031939338236) 58%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+            }
+        }
+
+        &__img {
+            height: inherit;
+        }
+
+        img {
+            object-fit: cover;
+            object-position: 50% 40%;
+            width: 100%;
+            height: inherit;
+        }
+        &::before,
+        &::after {
+            content: "";
+            @include pos-absolute(0, 0, 0, 0);
+        }
+
+        &::before {
+            background: rgb(20, 20, 20);
+            background: linear-gradient(
+                0deg,
+                rgba(20, 20, 20, 1) 0%,
+                rgba(18, 18, 18, 0.5854051093093487) 22%,
+                rgba(97, 97, 97, 0.14843031939338236) 58%,
+                rgba(255, 255, 255, 0) 100%
+            );
+        }
+    }
+
+    @include breakpoint(sm, min) {
+        padding-bottom: 420px !important;
+    }
+}
+
+.details-wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto;
+    gap: 20px;
+    margin-top: -100px;
+    z-index: 1;
+
+    @include breakpoint(md, min) {
+        grid-template-columns: auto 1.5fr 1fr;
+    }
+}
+
+.anime {
+    &__img {
+        max-width: 200px;
+        height: min-content;
+        border-radius: 12px;
+        overflow: hidden;
+        // display: none;
+
+        img {
+            width: 0%;
+        }
+    }
+
+    &__title {
+        .title,
+        .other-titles {
+            text-align: center;
+        }
+
+        .title {
+            font-size: font-size(fs-32);
+            font-weight: font-weight(font-bold);
+            margin-bottom: $p-0_5;
+        }
+
+        .other-titles {
+            color: $white;
+            font-size: font-size(fs-16);
+            font-weight: font-weight(font-light);
+            margin-bottom: $p-1;
+        }
+    }
+
+    &__genres,
+    &__air-time {
+        justify-content: center !important;
+    }
+
+    &__genres {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 8px;
+        margin-bottom: $p-1;
+
+        a {
+            font-size: font-size(fs-12);
+            padding: 6px 12px;
+            border: 1px solid $white;
+            border-radius: 6px;
+
+            &:hover {
+                color: $red;
+                border: 1px solid $red;
+            }
+        }
+    }
+
+    &__air-time {
+        @include display-flex(center, flex-start);
+        gap: 11px;
+
+        p {
+            color: $red;
+            margin-bottom: $p-0_5;
+        }
+    }
+
+    &__description {
+        p {
+            font-size: font-size(fs-18);
+        }
+    }
+
+    @include breakpoint(md, min) {
+        &__img {
+            // display: block;
+            img {
+                width: 100%;
+            }
+        }
+
+        &__title {
+            .title,
+            .other-titles {
+                text-align: left;
+            }
+        }
+
+        &__genres,
+        &__air-time {
+            justify-content: flex-start !important;
+        }
+    }
+}
+
+// separator
+.dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background-color: $red;
+    border-radius: 50%;
+    margin-bottom: $p-0_5;
+}
+
+.other-details {
+    &__wrapper {
+        display: flex;
+        gap: 8px;
+        margin-bottom: $p-0_5;
+    }
+
+    &__key {
+        color: $grayish-blue;
+        font-size: font-size(fs-14);
+        font-weight: font-weight(font-boldm);
+        margin-bottom: 2px;
+    }
+
+    &__val {
+        font-size: font-size(fs-16);
+        font-weight: font-weight(font-bold);
+        margin-bottom: $p-0;
+    }
+}
+
+//bg color for episode header and related container
+.bg-color {
+    background: $ep-grey;
+}
+
+.episode-lists {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 5%;
+
+    &__wrapper {
+        flex-grow: 1;
+    }
+
+    &__header {
+        border-radius: 10px;
+        padding: $p-1;
+        margin-bottom: $p-1;
+
+        h2 {
+            color: $white;
+            font-size: font-size(fs-22);
+            font-weight: font-weight(font-bold);
+            margin-bottom: $p-0;
+        }
+    }
+
+    &__container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(182px, 1fr));
+        gap: 12px;
+    }
+
+    @include breakpoint(md, min) {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+//recommended episodes
+
+.related-container {
+    // flex-basis: 0;
+    // flex-shrink: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+    border-radius: 10px;
+    height: min-content;
+    padding: $p-1_5;
+
+    h2 {
+        color: $white;
+        font-size: font-size(fs-22);
+        font-weight: font-weight(font-bold);
+        margin-bottom: $p-0;
+    }
+}
+
+//recommended section
+.recommended {
+    &__header {
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+
+        h2 {
+            color: hsl(0deg, 0%, 100%);
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+    }
+}
+
+//common on sections
+.episode-lists,
+.recommended {
+    &.container {
+        max-width: 100%;
+    }
+
+    @include breakpoint(md, min) {
+        &.container {
+            max-width: 1200px;
+        }
+    }
+
+    @media only screen and (min-width: 1266px) {
+        padding: $p-0 !important;
+        padding-bottom: 5% !important;
+    }
+}

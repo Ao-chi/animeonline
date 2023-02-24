@@ -1,0 +1,96 @@
+.episode-card {
+    background-color: $mid-grey;
+    border: 1px solid $light-grey;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $light-grey;
+        border-color: $light-grey;
+
+        .episode-card__overlay {
+            @include visibility-hiddden($visible, $opacity-1);
+        }
+
+        .episode-card__image-wrapper {
+            img {
+                transform: scale(1.2);
+            }
+        }
+
+        .episode-card__play {
+            // @include pos-absolute(50%, 50%, 0, 0);
+            @include visibility-hiddden($visible, $opacity-1);
+        }
+
+        .episode-card__desc {
+            .ep-title {
+                color: lighten($dark-red, 20%);
+                font-weight: font-weight(font-bold);
+            }
+            .ep-number {
+                color: $white;
+            }
+        }
+    }
+
+    &:active {
+        background-color: $red;
+        border-color: $red;
+    }
+
+    &__image-wrapper {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        height: 90px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__overlay,
+    &__play {
+        z-index: 1;
+    }
+
+    &__overlay {
+        background-color: hsla(0, 0, 7, 0.5);
+        @include pos-absolute(0, 0, 0, 0);
+        @include visibility-hiddden($hidden, $opacity-0);
+    }
+
+    &__play {
+        color: $white;
+        font-size: font-size(fs-26);
+        @include pos-absolute(50%, 50%, 0, auto);
+        @include visibility-hiddden($hidden, $opacity-0);
+    }
+
+    &__desc {
+        padding: $p-1;
+
+        .ep-title,
+        .ep-number {
+            margin-bottom: $p-0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .ep-title {
+            color: $white;
+            font-size: font-size(fs-16);
+        }
+
+        .ep-number {
+            color: $grayish-blue;
+            font-size: font-size(fs-14);
+        }
+    }
+}

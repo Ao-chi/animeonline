@@ -1,0 +1,1028 @@
+@import "./abstracts/reset";
+@import "./abstracts/functions";
+@import "./abstracts/mixins";
+@import "./abstracts/variables";
+@import "./base/base";
+@import "./base/fonts";
+@import "./components/header", "./components/button", "./components/card", "./components/footer",
+    "./components/pagination";
+
+@keyframes fade-up {
+    0% {
+        transform: translateY(10%);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fade-up 0.3s ease-in 0.3s forwards;
+}
+
+body {
+    background-color: $dark-grey;
+}
+
+main {
+    position: relative;
+
+    background-color: $dark-grey;
+    // margin-top: 100px;
+    min-height: 100%;
+}
+
+main:not(.home-main) {
+    // padding: 5%;
+    margin-top: 100px;
+}
+
+section:not(.popular-anime) {
+    padding: 5%;
+}
+
+section {
+    h1 {
+        font-size: $h4-font-size;
+    }
+
+    &.popular-anime,
+    &.anime-info {
+        // padding: 5% $p-0;
+        padding-top: $p-0;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    &__title {
+        @include display-flex(center, space-between);
+    }
+
+    @include breakpoint(md, max) {
+        &__title {
+            h1 {
+                font-size: font-size(fs-20);
+            }
+        }
+    }
+}
+
+.grid-trending,
+.grid-template,
+.card-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding-left: $p-0;
+
+    @include breakpoint(sm, min) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @include breakpoint(md, min) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+.scrollTop {
+    position: fixed;
+    right: 5%;
+    bottom: -20px;
+    border-radius: 50%;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    box-shadow: 10px 10px 17px -11px rgba(0, 0, 0, 0.55);
+    -webkit-box-shadow: 10px 10px 17px -11px rgba(0, 0, 0, 0.55);
+    -moz-box-shadow: 10px 10px 17px -11px rgba(0, 0, 0, 0.55);
+    transition: all ease-in-out 0.4s;
+    z-index: 1000;
+    // transition: background-color ease-in-out 0.4s;
+    @include visibility-hiddden($hidden, $opacity-0);
+
+    &:hover {
+        background-color: $dark-red;
+    }
+    &.show {
+        bottom: 50px;
+        @include visibility-hiddden($visible, $opacity-1);
+    }
+
+    &.hide {
+        bottom: -20px;
+        @include visibility-hiddden($hidden, $opacity-0);
+    }
+}
+
+//skeleton template
+.skeleton {
+    opacity: 0.7;
+    animation: skeleton-loading 1s linear infinite alternate;
+    border: 0px;
+    &__img,
+    &__text {
+        background: $mid-grey;
+        background-size: 500%;
+    }
+
+    &__text {
+        height: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 10px;
+
+        &:last-child {
+            width: calc(100% - 20px);
+        }
+    }
+
+    &.card__img {
+        aspect-ratio: 2/3;
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background: $light-grey;
+    }
+    100% {
+        background: $grey;
+    }
+}
+
+// swiper nav
+.swiper-controls {
+    display: none;
+
+    @include breakpoint(md, min) {
+        display: block;
+    }
+}
+
+//trending anime section
+.grid-trending {
+    width: 100%;
+    height: 100%;
+}
+
+.trending-anime {
+    padding-bottom: $p-0 !important;
+    position: relative;
+
+    .swiper-controls {
+        position: relative;
+        max-width: min-content;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        background-color: rgba(168, 168, 168, 0.194);
+        padding: $p-1_5;
+        border-radius: 50%;
+        top: -10px;
+        bottom: 5%;
+
+        &:hover,
+        &:active {
+            background-color: $red;
+        }
+    }
+
+    .swiper-button-prev {
+        left: auto;
+        right: 65px;
+    }
+
+    .swiper-button-next {
+        right: 0;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        color: $white;
+        font-size: font-size(fs-12);
+        font-weight: 900;
+    }
+
+    .card {
+        position: relative;
+
+        &__img {
+            position: relative;
+        }
+
+        &__detail {
+            display: flex;
+            position: absolute;
+            top: auto;
+            right: 0;
+            bottom: 0;
+            left: 25%;
+            width: auto;
+            padding: $p-0_5;
+            background-color: $mid-grey;
+            border: 2px solid $mid-grey;
+            border-bottom-right-radius: 7px;
+            border-top-left-radius: 7px;
+            z-index: 1;
+
+            p {
+                display: inline-block;
+                color: $white;
+                font-size: font-size(fs-12);
+                margin-bottom: $p-0;
+
+                &:nth-child(2) {
+                    margin-left: auto;
+                }
+            }
+        }
+
+        &:hover {
+            .card__detail {
+                background-color: $red;
+                border: 2px solid $red;
+            }
+        }
+    }
+
+    @include breakpoint(md, min) {
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: font-size(fs-16);
+        }
+
+        .card {
+            &__detail {
+                left: 35%;
+            }
+        }
+    }
+}
+
+// recent anime episodes section
+.recent-anime {
+    .container {
+        &__title {
+            margin-bottom: $p-1_5;
+            h1 {
+                margin-bottom: $p-0;
+            }
+        }
+    }
+    .fade-up-element {
+        opacity: 0;
+    }
+    .card {
+        &__title {
+            h2 {
+                margin-bottom: $p-0_5;
+            }
+        }
+    }
+    .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+// popular skeleton
+.popular-skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+    height: 100%;
+
+    &__img {
+        height: 520px;
+        background: $mid-grey;
+    }
+}
+
+// popular anime section
+.popular-anime {
+    height: 100%;
+    background: $dark-blue;
+    overflow: hidden;
+
+    .card {
+        // border-radius: 0px;
+        &__title {
+            h2 {
+                margin-bottom: $p-0_5;
+            }
+        }
+    }
+    .popular-card {
+        // height: 420px;
+        // position: relative;
+        @include pos-absolute(0, 0, 0, 0);
+
+        &__overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgb(20, 20, 20);
+            background: linear-gradient(
+                0deg,
+                rgba(20, 20, 20, 0.8094947451636905) 0%,
+                rgba(255, 255, 255, 0) 100%
+            );
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: rgb(20, 20, 20);
+                background: linear-gradient(
+                    180deg,
+                    rgba(20, 20, 20, 1) 0%,
+                    rgba(18, 18, 18, 0.5854051093093487) 12%,
+                    rgba(97, 97, 97, 0.14843031939338236) 58%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+            }
+        }
+
+        &__picture {
+            height: inherit;
+            width: 100%;
+        }
+
+        &__img {
+            width: 100%;
+            height: 100%;
+            background: $grey;
+            margin-left: auto;
+
+            img {
+                object-fit: cover;
+                object-position: 50% 40%;
+                width: 100%;
+                height: inherit;
+            }
+        }
+
+        &__watch {
+            .popular-card__watch--btn {
+                @include display-flex(center, center);
+                color: $white;
+                font-size: font-size(fs-14);
+                padding: $p-0_5 $p-1;
+                border: 1px solid $red;
+                border-radius: 24px;
+                background-color: $red;
+                width: 150px;
+
+                &:hover {
+                    border: 1px solid $dark-red;
+                    background-color: $dark-red;
+                }
+
+                span {
+                    margin-right: $p-0_5;
+                    font-size: font-size(fs-20);
+                    @include display-flex(center, center);
+                }
+            }
+        }
+
+        &__info {
+            position: absolute;
+            right: 0;
+            left: 0;
+            bottom: 20px;
+            padding-left: 5%;
+            padding-right: 5%;
+            padding-bottom: 10%;
+            max-width: calc(1200px - $p-3);
+            margin: 0 auto;
+        }
+
+        &__desc {
+            display: none;
+            p {
+                color: $white;
+            }
+        }
+
+        &__title {
+            h2 {
+                color: $white;
+                font-size: font-size(fs-20);
+                font-weight: font-weight(font-bolder);
+                margin-bottom: $p-0_5;
+            }
+        }
+
+        &__episode {
+            margin-bottom: $p-1;
+            @include display-flex(center, flex-start);
+
+            p {
+                color: darken($white, 2%);
+                font-size: font-size(fs-14);
+                margin-bottom: $p-0_5;
+                margin-right: 20px;
+
+                &:nth-child(3) {
+                    margin-right: 10px;
+                }
+
+                span {
+                    margin-right: 5px;
+                    font-size: font-size(fs-14);
+                }
+            }
+
+            .hd-icon {
+                color: $white;
+                font-size: font-size(fs-12);
+                font-weight: font-weight(font-bold);
+                background: $red;
+                padding: 2px 5px;
+                border-radius: 5px;
+            }
+
+            .cc-icon {
+                color: $grey;
+                font-size: font-size(fs-12);
+                font-weight: font-weight(font-bold);
+                background: $white;
+                padding: 2px 5px;
+                border-radius: 5px;
+            }
+        }
+
+        @include breakpoint(md, min) {
+            // height: 520px;
+
+            &__overlay {
+                background: rgb(20, 20, 20);
+                background: linear-gradient(
+                    90deg,
+                    rgba(20, 20, 20, 1) 0%,
+                    rgba(20, 20, 20, 0.691847686340161) 45%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+                background: rgb(20, 20, 20);
+                background: linear-gradient(
+                    0deg,
+                    rgba(20, 20, 20, 1) 0%,
+                    rgba(18, 18, 18, 0.5854051093093487) 25%,
+                    rgba(97, 97, 97, 0.14843031939338236) 58%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+
+                &::after {
+                    background: rgb(20, 20, 20);
+                    background: linear-gradient(
+                        180deg,
+                        rgba(20, 20, 20, 0.9439485266762955) 0%,
+                        rgba(18, 18, 18, 0.5854051093093487) 18%,
+                        rgba(255, 255, 255, 0) 100%
+                    );
+                }
+            }
+
+            &__watch {
+                .popular-card__watch--btn {
+                    font-size: font-size(fs-18);
+                }
+            }
+
+            &__img {
+                img {
+                    object-position: 50% 50%;
+                }
+            }
+
+            &__info {
+                padding-left: $p-3;
+                padding-bottom: 5%;
+            }
+
+            &__desc {
+                display: block;
+                max-width: 50%;
+                p {
+                    color: $white;
+                }
+            }
+
+            &__title {
+                h2 {
+                    font-size: font-size(fs-32);
+                }
+            }
+
+            &__episode {
+                p {
+                    font-size: font-size(fs-16);
+                }
+            }
+        }
+    }
+
+    // swiper js customization
+    .swiper {
+        padding-bottom: 420px;
+        .popular {
+            @include pos-absolute(0, 0, 0, 0);
+        }
+    }
+
+    .swiper-pagination {
+        text-align: left;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        background-color: rgba(168, 168, 168, 0.194);
+        padding: $p-1_5;
+        border-radius: 50%;
+        top: auto;
+        bottom: 5%;
+
+        &:hover,
+        &:active {
+            background-color: $mid-grey;
+        }
+    }
+
+    .swiper-button-prev {
+        left: auto;
+        right: 10%;
+    }
+
+    .swiper-button-next {
+        right: 5%;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        color: $white;
+        font-size: font-size(fs-16);
+        font-weight: 900;
+    }
+
+    .swiper-horizontal > .swiper-pagination-bullets,
+    .swiper-pagination-bullets.swiper-pagination-horizontal {
+        max-width: 1300px;
+        padding-left: 5%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+    }
+
+    .swiper-pagination-bullet {
+        background: $white;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: $red;
+        width: 30px;
+        border-radius: 10px;
+    }
+
+    @include breakpoint(md, min) {
+        .swiper {
+            padding-bottom: 580px;
+        }
+
+        .swiper-horizontal > .swiper-pagination-bullets,
+        .swiper-pagination-bullets.swiper-pagination-horizontal {
+            padding-left: 5%;
+        }
+    }
+}
+
+//animeifo skeleton loading
+.skeleton-details {
+    .skeleton-img {
+        width: 222px;
+        height: 250px;
+        border-radius: 10px;
+    }
+
+    .skeleton-text {
+        width: 100%;
+        height: 10px;
+
+        &:nth-child(4),
+        &:nth-child(5) {
+            width: 50%;
+        }
+        &:nth-child(6),
+        &:nth-child(7) {
+            width: 30%;
+        }
+    }
+
+    .info__details {
+        width: 100%;
+    }
+}
+
+//anime info / watch
+.info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+    &__img {
+        max-width: 225px;
+        img {
+            border-radius: 10px;
+            width: 225px;
+            max-width: inherit;
+        }
+    }
+
+    @include breakpoint(sm, min) {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: row;
+        &__img {
+            width: inherit;
+        }
+    }
+}
+
+.container__watch {
+    position: relative;
+    background: $black;
+
+    .player {
+        .skeleton {
+            &__player {
+                padding-bottom: 55.6%;
+            }
+        }
+
+        .poster {
+            position: relative;
+            padding-bottom: 56.5%;
+            overflow: hidden;
+
+            .overlay {
+                @include pos-absolute(0, 0, 0, 0);
+                background-color: rgba(0, 0, 0, 0.55);
+            }
+            .play {
+                position: absolute;
+                top: 50%;
+                right: 50%;
+                transform: translate(50%, -50%);
+                background-color: transparent;
+                border-radius: 50%;
+                width: 70px;
+                height: 70px;
+                border: 4px solid $red;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1;
+                cursor: pointer;
+
+                &::after {
+                    content: "\f04b";
+                    font-family: "Font Awesome 6 Free";
+                    font-weight: 900;
+                    font-size: $h3-font-size;
+                    color: $red;
+                    margin-left: 5px;
+                }
+                &:hover {
+                    transform: translate(50%, -50%) scale(1.1);
+                }
+            }
+
+            img {
+                @include pos-absolute(0, 0, 0, 0);
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 80% 50%;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, 0.55);
+                }
+            }
+        }
+    }
+
+    .watch-player {
+        width: 100%;
+        padding-bottom: 56.5%;
+        position: relative;
+
+        .watch__stream {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    }
+}
+
+.anime {
+    .details {
+        color: $white;
+        margin-bottom: $p-0_5;
+
+        strong,
+        i {
+            color: $grayish-blue;
+        }
+
+        &:nth-child(5) {
+            margin-bottom: $p-1_5;
+        }
+    }
+    .more {
+        font-style: italic;
+        color: $grayish-blue;
+        background: transparent;
+        border: none;
+        padding: 0 3px;
+        margin-bottom: $p-0;
+
+        &:hover {
+            color: $red;
+        }
+
+        &.more--hide {
+            display: none;
+        }
+
+        &.more--active {
+            display: inline-block;
+        }
+    }
+
+    &__title {
+        color: $white;
+        font-size: $h4-font-size;
+        font-weight: font-weight(font-bolder);
+        // text-transform: uppercase;
+        margin-bottom: $p-0_5;
+    }
+
+    &__dates {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .details {
+            color: $red;
+            font-size: font-size(fs-14);
+            font-weight: font-weight(font-bold);
+            margin-bottom: $p-0;
+        }
+
+        .fa-regular {
+            font-size: font-size(fs-16);
+            margin-right: 10px;
+        }
+    }
+}
+
+// animeinfo page // episodes lists
+.episodes {
+    background-color: $mid-grey;
+    padding: $p-0;
+
+    &__lists {
+        padding: $p-1 $p-0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    &__items {
+        width: auto;
+
+        padding: $p-0;
+        margin: 5px 5px;
+        text-align: center;
+        border: 1px solid $grey;
+        border-radius: 10px;
+        // overflow: hidden;
+
+        &.active {
+            border: 1px solid $red;
+            background: $red;
+            .episodes__links {
+                color: $white;
+            }
+            .episodes__overlay,
+            .episodes__play {
+                @include visibility-hiddden($visible, $opacity-1);
+                z-index: 1;
+            }
+            &:hover {
+                border: 1px solid $red;
+                background: $red;
+            }
+        }
+
+        &:hover {
+            border: 1px solid $light-grey;
+            background-color: $light-grey;
+
+            .episodes__links {
+                color: $white;
+            }
+
+            .episodes__img {
+                img {
+                    transform: scale(1.2);
+                }
+                .episodes__overlay,
+                .episodes__play {
+                    @include visibility-hiddden($visible, $opacity-1);
+                    z-index: 1;
+                }
+            }
+        }
+    }
+
+    &__links {
+        color: $white;
+        display: block;
+        font-size: font-size(fs-14);
+        max-height: inherit;
+        overflow: hidden;
+    }
+
+    &__img {
+        width: 100%;
+        max-height: 80px;
+        border-radius: calc(10px + 1px);
+        position: relative;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            max-height: inherit;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    &__overlay {
+        @include visibility-hiddden($hidden, $opacity-0);
+        @include pos-absolute(0, 0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+
+    &__play {
+        font-size: font-size(fs-28);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        @include visibility-hiddden($hidden, $opacity-0);
+        transform: translate(-50%, -50%);
+    }
+
+    &__desc {
+        // height: 100%;
+        padding: 4px;
+    }
+
+    @include breakpoint(sm, min) {
+        &__lists {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+    }
+}
+
+.container--padding {
+    padding: $p-1_5 $p-0;
+
+    // .episode-intro {
+    //     // padding-top: $p-1_5;
+    // }
+}
+
+// search results page
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+
+    @include breakpoint(md, min) {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    .fade-up-element {
+        opacity: 0;
+    }
+}
+
+// error page
+.error-page {
+    @include display-flex(center, center);
+    position: relative;
+
+    &__content {
+        max-width: 900px;
+    }
+
+    &__img {
+        img {
+            width: 100%;
+            margin-left: $p-0_5;
+        }
+    }
+
+    &__text {
+        text-align: center;
+        max-width: 300px;
+        margin: 0 auto;
+
+        p {
+            font-size: font-size(fs-20);
+            font-weight: font-weight(font-bolder);
+        }
+    }
+
+    &__button {
+        @include display-flex(center, center);
+        .error-page__button--btn {
+            font-size: font-size(fs-16);
+            padding: $p-0_5 $p-1;
+            border-radius: 50px;
+            @include display-flex(center, center);
+
+            &:hover {
+                background-color: lighten($red, 20%);
+            }
+
+            .fa-solid {
+                font-size: font-size(fs-18) !important;
+                margin-right: $p-0_5;
+            }
+        }
+    }
+
+    @include breakpoint(xsl, min) {
+        &__img {
+            img {
+                margin-left: $p-1_5;
+            }
+        }
+
+        &__text {
+            text-align: center;
+            max-width: 1200px;
+
+            p {
+                font-size: font-size(fs-28);
+                font-weight: font-weight(font-bolder);
+            }
+        }
+    }
+    @include breakpoint(sm, min) {
+        &__text {
+            text-align: center;
+            max-width: 1200px;
+
+            p {
+                font-size: font-size(fs-50);
+                font-weight: font-weight(font-bolder);
+            }
+        }
+
+        &__button {
+            text-align: center;
+            .error-page__button--btn {
+                padding: $p-1 $p-1_5;
+                font-size: font-size(fs-20);
+                border-radius: 50px;
+
+                &:hover {
+                    background-color: lighten($red, 10%);
+                }
+
+                .fa-solid {
+                    font-size: font-size(fs-32) !important;
+                    margin-right: $p-0_5;
+                }
+            }
+        }
+    }
+}

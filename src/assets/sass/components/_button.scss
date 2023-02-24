@@ -1,0 +1,23 @@
+button {
+    color: $white;
+    position: relative;
+    font-weight: font-weight(font-bold);
+    @include Public-sans-font;
+    border: 1px solid $red;
+    border-radius: $p-0_5;
+
+    padding: $p-0_5;
+    margin-bottom: $p-1;
+    background-color: $red;
+    white-space: nowrap;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        color: $white;
+        background-color: lighten($red, 15%);
+    }
+}
+
+@keyframes fadeIn {
+}

@@ -1,0 +1,36 @@
+.pagination {
+    @include display-flex(center, space-between);
+
+    &__links {
+        a {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+            padding: $p-0 $p-0_5;
+            transition: font-size ease-in-out 0.3s;
+
+            .prevFirst {
+                color: $red;
+            }
+        }
+        &.active {
+            &:hover {
+                a {
+                    color: $white;
+                }
+            }
+            a {
+                color: $white;
+                background-color: $red;
+
+                // font-size: font-size(fs-18);
+            }
+        }
+
+        &:hover {
+            a {
+                color: $dark-red;
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+html {
+    height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+body {
+    height: 100%;
+    // overflow-x: hidden;
+    @include Roboto;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    transition: all ease-in-out 0.2s;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: $white;
+    font-weight: font-weight(font-normal);
+    margin-bottom: $p-1-5;
+    line-height: 1.2;
+}
+
+p {
+    color: $white;
+    font-size: font-size(fs-15);
+    font-weight: font-weight(font-normal);
+    margin-bottom: $p-1-5;
+    line-height: 1.5;
+    @include Inter;
+}
+
+a {
+    color: $grayish-blue;
+    font-weight: font-weight(font-normal);
+    text-decoration: none;
+}
+
+h1 {
+    font-size: $h1-font-size;
+}
+
+h2 {
+    color: $black;
+    font-size: $h2-font-size;
+}
+
+.fa-brands {
+    color: $white;
+}
+
+br {
+    &:nth-child(1) {
+        display: none;
+    }
+}
+
+.svg-inline--fa {
+    margin-right: 5px;
+}

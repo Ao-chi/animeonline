@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+
+import "./App.scss";
+
+import Header from "./components/Header";
+import Home from "./components/Home";
+import Animeinfopage from "./pages/AnimeInfopage/Animeinfopage";
+import SearchResults from "./pages/SearchResultspage/SearchResults";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const instance = axios.create({
+        baseURL: "https://cors.consumet.stream/https://api.consumet.org/meta/anilist/",
+    });
+
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <Header />
+                <Routes>
+                    <Route path="/" element={<Home instance={instance} />}></Route>
+                    <Route
+                        path="/info/:animeId"
+                        element={<Animeinfopage instance={instance} />}
+                    ></Route>
+                    <Route
+                        path="/search/:searchQuery"
+                        element={<SearchResults instance={instance} />}
+                    ></Route>
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;
