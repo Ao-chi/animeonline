@@ -30,7 +30,7 @@ const Search = () => {
 
         return debouncedValue;
     }
-
+    const proxy = `https://cors.consumet.stream`;
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -147,7 +147,7 @@ const Search = () => {
                                             <li className="search__lists result">
                                                 <div className="result__img">
                                                     <img
-                                                        src={image}
+                                                        src={`${proxy}/${image}`}
                                                         alt={`${romaji}-image-poster`}
                                                     />
                                                 </div>

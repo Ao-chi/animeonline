@@ -24,6 +24,7 @@ const Animeinfopage = ({ instance }) => {
 
     const buttonClasses = showFullDesc ? "active" : "";
     const buttonText = showFullDesc ? "Read Less" : "Read More";
+    const proxy = `https://cors.consumet.stream`;
 
     useEffect(() => {
         const fetchAniInfo = async () => {
@@ -107,10 +108,13 @@ const Animeinfopage = ({ instance }) => {
                                         <picture className="cover__img">
                                             <source
                                                 media="(max-width:992px)"
-                                                srcSet={aniInfo.image}
+                                                srcSet={`${proxy}/${aniInfo.image}`}
                                             />
 
-                                            <img src={aniInfo.cover} alt={aniInfo.title?.romaji} />
+                                            <img
+                                                src={`${proxy}/${aniInfo.cover}`}
+                                                alt={aniInfo.title?.romaji}
+                                            />
                                         </picture>
                                     </div>
                                 </div>
