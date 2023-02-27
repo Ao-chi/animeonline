@@ -15,7 +15,7 @@ const Animeinfopage = ({ instance }) => {
     const { animeId } = useParams();
     const [aniInfo, setAniInfo] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    // console.log(animeId);
     const [showFullDesc, setShowFullDesc] = useState(false);
 
     const toggleDescription = () => {
@@ -24,7 +24,6 @@ const Animeinfopage = ({ instance }) => {
 
     const buttonClasses = showFullDesc ? "active" : "";
     const buttonText = showFullDesc ? "Read Less" : "Read More";
-    const proxy = `https://cors.consumet.stream`;
 
     useEffect(() => {
         const fetchAniInfo = async () => {
@@ -57,33 +56,7 @@ const Animeinfopage = ({ instance }) => {
                 status,
             } = data.data;
             // console.log(romaji);
-            setAniInfo({
-                id,
-                title: { romaji, english, native },
-                synonyms,
-                isAdult,
-                countryOfOrigin,
-                color,
-                cover,
-                image,
-                currentEpisode,
-                description,
-                releaseDate,
-                startDate: { year: sYear, month: sMonth, day: sDay },
-                endDate: { year: endYear, month: endMonth, day: endDay },
-                totalEpisodes,
-                rating,
-                duration,
-                genres,
-                season,
-                studios,
-                subOrDub,
-                type,
-                recommendations,
-                relations,
-                episodes,
-                status,
-            });
+            setAniInfo(data.data);
             setLoading(false);
         };
         fetchAniInfo();
@@ -108,13 +81,10 @@ const Animeinfopage = ({ instance }) => {
                                         <picture className="cover__img">
                                             <source
                                                 media="(max-width:992px)"
-                                                srcSet={`${proxy}/${aniInfo.image}`}
+                                                srcSet={aniInfo.image}
                                             />
 
-                                            <img
-                                                src={`${proxy}/${aniInfo.cover}`}
-                                                alt={aniInfo.title?.romaji}
-                                            />
+                                            <img src={aniInfo.cover} alt={aniInfo.title?.romaji} />
                                         </picture>
                                     </div>
                                 </div>
@@ -210,14 +180,19 @@ const Animeinfopage = ({ instance }) => {
                                     </div>
                                     <div className="episode-lists__container">
                                         {aniInfo.episodes?.map(
-                                            ({ id, title, number, image }, index) => {
+                                            ({ id: epId, title, number, image }, index) => {
                                                 return (
                                                     <NavLink
-                                                        key={`${id}${index}`}
-                                                        onClick={() => setLoading(true)}
+                                                        key={`${epId}${index}`}
+                                                        to={`/watch/${aniInfo.id}?watching=${epId}`}
                                                     >
                                                         <EpisodeCard
-                                                            data={{ id, title, number, image }}
+                                                            data={{
+                                                                id: epId,
+                                                                title,
+                                                                number,
+                                                                image,
+                                                            }}
                                                         ></EpisodeCard>
                                                     </NavLink>
                                                 );

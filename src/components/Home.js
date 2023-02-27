@@ -51,7 +51,7 @@ const Home = ({ instance }) => {
                 //     `https://cors.consumet.stream/https://api.consumet.org/meta/anilist/recent-episodes?page=${currentPage}&perPage=${perPage}&provider=zoro`
                 // );
                 const response = await axios.get(
-                    `https://cors.consumet.stream/https://api.consumet.org/meta/anilist/recent-episodes?`,
+                    `https://api.consumet.org/meta/anilist/recent-episodes?`,
                     {
                         params: {
                             page: `${currentPage}`,

@@ -30,14 +30,14 @@ const Search = () => {
 
         return debouncedValue;
     }
-    const proxy = `https://cors.consumet.stream`;
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setData([]);
                 if (debouncedSearchTerm.length > 0) {
                     const response = await axios.get(
-                        `https://cors.consumet.stream/https://api.consumet.org/meta/anilist/advanced-search?query=${debouncedSearchTerm}`
+                        `https://api.consumet.org/meta/anilist/advanced-search?query=${debouncedSearchTerm}`
                     );
 
                     const results =
@@ -147,7 +147,7 @@ const Search = () => {
                                             <li className="search__lists result">
                                                 <div className="result__img">
                                                     <img
-                                                        src={`${proxy}/${image}`}
+                                                        src={image}
                                                         alt={`${romaji}-image-poster`}
                                                     />
                                                 </div>

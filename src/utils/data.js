@@ -5,14 +5,14 @@ const corsProxy = "https://cors.consumet.stream/";
 
 export async function getPopularAnime() {
     try {
-        const response = await axios.get(`${corsProxy}${baseURL}meta/anilist/popular`);
+        const response = await axios.get(`${baseURL}meta/anilist/popular`);
         return response.data.results;
     } catch (error) {}
 }
 
 export async function getTrendingAnime() {
     try {
-        const response = await axios.get(`${corsProxy}${baseURL}meta/anilist/trending?`, {
+        const response = await axios.get(`${baseURL}meta/anilist/trending?`, {
             params: {
                 page: 1,
                 perPage: 10,
@@ -25,7 +25,7 @@ export async function getTrendingAnime() {
 export async function getRecentRelease(currentpage) {
     const perPage = 20;
     try {
-        const apiUrl = `${corsProxy}${baseURL}meta/anilist/recent-episodes?page=${currentpage}&perPage=${perPage}&provider=zoro}`;
+        const apiUrl = `${baseURL}meta/anilist/recent-episodes?page=${currentpage}&perPage=${perPage}&provider=zoro}`;
 
         const response = await axios.get(apiUrl);
 

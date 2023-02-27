@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import iconBrand from "../assets/images/Logoicon.svg";
 import Search from "./Searchform";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const Header = () => {
@@ -64,9 +64,9 @@ const Header = () => {
                 >
                     <ul className="nav-list">
                         <li className="nav-list__items">
-                            <Link to="/" className="nav-list__links">
+                            <NavLink to="/" className="nav-list__links">
                                 Home
-                            </Link>
+                            </NavLink>
                         </li>
                         <li className="nav-list__items">
                             <a className="nav-list__links" href="#">

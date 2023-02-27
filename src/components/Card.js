@@ -17,13 +17,13 @@ const Card = ({ data }) => {
         status,
         rating,
     } = data;
-    const proxy = "https://cors.consumet.stream";
+
     return (
         <div className="card">
             <div className="card__img">
                 <div className="card__overlay"></div>
                 <FontAwesomeIcon className="card__play" icon={faPlay}></FontAwesomeIcon>
-                <img src={`${proxy}/${image}`} alt={data.title.romaji} />
+                <img src={image} alt={data.title.romaji} />
                 <div className="card__rating">
                     <span className="rating">
                         <FontAwesomeIcon className="rating__star" icon={faStar}></FontAwesomeIcon>

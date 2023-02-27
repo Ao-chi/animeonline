@@ -1,0 +1,50 @@
+@import "/src/assets/sass/abstracts/functions";
+@import "/src/assets/sass/abstracts/mixins";
+@import "/src/assets/sass/abstracts/variables";
+
+.watch-player {
+    &.container {
+        @media only screen and (min-width: 1266px) {
+            padding: $p-0 !important;
+            padding-bottom: 5% !important;
+        }
+    }
+    z-index: 1;
+}
+
+.watch-episodes {
+    grid-template-columns: 1fr;
+}
+
+.episode-lists {
+    &__item {
+        &.active {
+            .episode-card {
+                background-color: $red;
+                border-color: $red;
+
+                &__overlay {
+                    @include visibility-hiddden($visible, $opacity-1);
+                }
+                &__image-wrapper {
+                    img {
+                        transform: scale(1.2);
+                    }
+                }
+                &__play {
+                    @include visibility-hiddden($visible, $opacity-1);
+                }
+
+                &__desc {
+                    .ep-title {
+                        color: $white;
+                        font-weight: font-weight(font-bold);
+                    }
+                    .ep-number {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+@import "/src/assets/sass/abstracts/functions";
+@import "/src/assets/sass/abstracts/mixins";
+@import "/src/assets/sass/abstracts/variables";
+
+.art-player-container {
+    position: relative;
+    padding-bottom: 56.2%;
+
+    div[data-art-id] {
+        @include pos-absolute(0, 0, 0, 0);
+        height: 100%;
+        z-index: 1;
+    }
+}

@@ -7,10 +7,11 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import Animeinfopage from "./pages/AnimeInfopage/Animeinfopage";
 import SearchResults from "./pages/SearchResultspage/SearchResults";
+import WatchPage from "./pages/WatchPage/WatchPage";
 
 function App() {
     const instance = axios.create({
-        baseURL: "https://cors.consumet.stream/https://api.consumet.org/meta/anilist/",
+        baseURL: "https://api.consumet.org/meta/anilist/",
     });
 
     return (
@@ -26,6 +27,10 @@ function App() {
                     <Route
                         path="/search/:searchQuery"
                         element={<SearchResults instance={instance} />}
+                    ></Route>
+                    <Route
+                        path="/watch/:animeId"
+                        element={<WatchPage instance={instance} />}
                     ></Route>
                 </Routes>
             </div>

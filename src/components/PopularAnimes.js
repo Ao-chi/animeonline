@@ -26,7 +26,7 @@ const PopularAnime = ({ popularAnime }) => {
                 slidesPerView={1}
             >
                 {popularAnime &&
-                    popularAnime.map(
+                    popularAnime?.map(
                         ({
                             id,
                             image,
