@@ -1,4 +1,5 @@
 import axios from "axios";
+// import Player from "../../components/ArtPlayer/ArtPlayer";
 import Player from "../../components/ArtPlayer/ArtPlayer";
 import Card from "../../components/Card";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,6 +10,7 @@ import { Link, NavLink } from "react-router-dom";
 import EpisodeCard from "../../components/Episode-Card/Episode-Card";
 
 import "./watchpage.scss";
+
 const WatchPage = ({ instance }) => {
     const { animeId } = useParams();
     const query = new URLSearchParams(window.location.search);
