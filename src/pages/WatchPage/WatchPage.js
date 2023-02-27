@@ -1,6 +1,6 @@
 import axios from "axios";
 // import Player from "../../components/ArtPlayer/ArtPlayer";
-import Player from "../../components/ArtPlayer/ArtPlayer";
+import Player from "../../components/ArtPlayer/Player";
 import Card from "../../components/Card";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
