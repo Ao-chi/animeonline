@@ -2,11 +2,6 @@ import { faPlay, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Card = ({ data }) => {
-    // const title =
-    //     data.title.romaji.length > 30
-    //         ? data.title.romaji.substring(0, 25) + "..."
-    //         : data.title.romaji;
-    const rating1 = (data?.rating / 10).toFixed(1);
     const {
         id,
         image,
@@ -18,6 +13,7 @@ const Card = ({ data }) => {
         rating,
     } = data;
 
+    const rating1 = (rating / 10).toFixed(1);
     return (
         <div className="card">
             <div className="card__img">

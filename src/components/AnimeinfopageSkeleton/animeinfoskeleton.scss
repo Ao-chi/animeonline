@@ -1,0 +1,58 @@
+@import "/src/assets/sass/abstracts/functions";
+@import "/src/assets/sass/abstracts/mixins";
+@import "/src/assets/sass/abstracts/variables";
+
+//skeleton template
+.skeleton {
+    opacity: 0.7;
+    animation: skeleton-loading 1s linear infinite alternate;
+    border: 0px;
+    &__img,
+    &__text {
+        background: $mid-grey;
+        background-size: 500%;
+    }
+
+    &__text {
+        height: $p-1_5;
+        margin-bottom: 0.5rem;
+        border-radius: 5px;
+
+        &.other-details {
+            &__text {
+                width: 50%;
+
+                &:last-child {
+                    width: 20%;
+                }
+            }
+        }
+    }
+
+    &__img {
+        aspect-ratio: 2/3;
+        display: none;
+    }
+
+    @include breakpoint(md, min) {
+        &__img {
+            display: block;
+        }
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background: $light-grey;
+    }
+    100% {
+        background: $grey;
+    }
+}
+
+.anime {
+    &__img {
+        width: 200px;
+        height: 100%;
+    }
+}

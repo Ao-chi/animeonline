@@ -10,16 +10,20 @@ import EpisodeCard from "../../components/Episode-Card/Episode-Card";
 import RelatedCard from "../../components/Related-card/RelatedCard";
 
 import "./AnimeInfopage.scss";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import AnimeinfoSkeleton from "../../components/AnimeinfopageSkeleton/Animeinfoskeleton";
 
 const Animeinfopage = ({ instance }) => {
     const { animeId } = useParams();
     const [aniInfo, setAniInfo] = useState([]);
     const [loading, setLoading] = useState(true);
-    // console.log(animeId);
     const [showFullDesc, setShowFullDesc] = useState(false);
-    const [episodeLists, setEpisodeLists] = useState();
+    const [episodeLists, setEpisodeLists] = useState(null);
     const [selectedChunk, setSelectedChunk] = useState(0);
+    const [selectOpen, setSelectOpen] = useState(false);
+    const [selectedPlaceholder, setSelectedPlaceholder] = useState();
 
+    console.log();
     const toggleDescription = () => {
         setShowFullDesc(!showFullDesc);
     };
@@ -29,51 +33,41 @@ const Animeinfopage = ({ instance }) => {
 
     useEffect(() => {
         const fetchAniInfo = async () => {
-            const data = await instance.get(`info/${animeId}?provider=gogoanime?isDub=false`);
-            const {
-                id,
-                title: { romaji, english, native },
-                synonyms,
-                isAdult,
-                countryOfOrigin,
-                color,
-                cover,
-                image,
-                currentEpisode,
-                description,
-                releaseDate,
-                startDate: { year: sYear, month: sMonth, day: sDay },
-                endDate: { year: endYear, month: endMonth, day: endDay },
-                totalEpisodes,
-                rating,
-                duration,
-                genres,
-                season,
-                studios,
-                subOrDub,
-                type,
-                recommendations,
-                relations,
-                episodes,
-                status,
-            } = data.data;
-            // console.log(romaji);
-            setAniInfo(data.data);
-            setLoading(false);
+            setLoading(true);
+            if (animeId.length > 0) {
+                const data = await instance.get(`info/${animeId}?provider=gogoanime?isDub=false`);
+                setAniInfo(data.data);
+                setLoading(false);
+            }
         };
+
         fetchAniInfo();
-        const episodeListChunk = [];
-        if (aniInfo.episodes && aniInfo.episodes.length > 24) {
-            episodeListChunk.push(aniInfo.episodes.slice(0, 24));
-        }
     }, [instance, animeId]);
+
+    // devide episodes morethan 24 into chunks
+    useEffect(() => {
+        const episodeListUpdate = () => {
+            const episodeListChunk = [];
+            if (aniInfo.episodes) {
+                for (let i = 0; i < aniInfo.episodes.length; i += 24) {
+                    episodeListChunk.push(aniInfo.episodes.slice(i, i + 24));
+                }
+                setSelectedChunk(0);
+                setEpisodeLists(episodeListChunk);
+            }
+        };
+        episodeListUpdate();
+    }, [setEpisodeLists, aniInfo.episodes]);
+
+    const handleEpisodeSelect = (e) => {
+        setSelectedChunk(e.target.value);
+    };
+
     return (
         <>
             {loading ? (
                 <>
-                    <div>
-                        <p>loading</p>
-                    </div>
+                    <AnimeinfoSkeleton />
                 </>
             ) : (
                 <>
@@ -84,10 +78,7 @@ const Animeinfopage = ({ instance }) => {
                                     <div className="cover">
                                         <div className="overlay--blur"></div>
                                         <picture className="cover__img">
-                                            <source
-                                                media="(max-width:992px)"
-                                                srcSet={aniInfo.image}
-                                            />
+                                            <source media="(max-width:992px)" srcSet={aniInfo.image} />
 
                                             <img src={aniInfo.cover} alt={aniInfo.title?.romaji} />
                                         </picture>
@@ -95,18 +86,14 @@ const Animeinfopage = ({ instance }) => {
                                 </div>
                                 <div className="anime details-wrapper container">
                                     <div className="anime__img">
-                                        <img
-                                            src={aniInfo.image}
-                                            alt={`${aniInfo.title?.romaji} poster`}
-                                        />
+                                        <img src={aniInfo.image} alt={`${aniInfo.title?.romaji} poster`} />
                                     </div>
                                     <div className="anime__main-detail">
                                         <div className="anime__title">
                                             <h1 className="title">{aniInfo.title?.romaji}</h1>
                                             <p className="other-titles">
                                                 <i>
-                                                    {aniInfo.title?.english},{" "}
-                                                    {aniInfo.title?.native}
+                                                    {aniInfo.title?.english}, {aniInfo.title?.native}
                                                 </i>
                                             </p>
                                         </div>
@@ -119,9 +106,7 @@ const Animeinfopage = ({ instance }) => {
                                         )}
                                         <div className="anime__air-time">
                                             <p>
-                                                <FontAwesomeIcon
-                                                    icon={faCalendarAlt}
-                                                ></FontAwesomeIcon>
+                                                <FontAwesomeIcon icon={faCalendarAlt}></FontAwesomeIcon>
                                                 {aniInfo.season} {aniInfo.releaseDate}
                                             </p>
                                             <span className="dot"></span>
@@ -167,9 +152,7 @@ const Animeinfopage = ({ instance }) => {
                                         </div>
                                         <div className="other-details__wrapper">
                                             <p className="other-details__key">Episodes:</p>
-                                            <p className="other-details__val">
-                                                {aniInfo.totalEpisodes}
-                                            </p>
+                                            <p className="other-details__val">{aniInfo.totalEpisodes}</p>
                                         </div>
                                         <div className="other-details__wrapper">
                                             <p className="other-details__key">sub or Dub:</p>
@@ -185,28 +168,50 @@ const Animeinfopage = ({ instance }) => {
                                 <div className="episode-lists__wrapper">
                                     <div className="episode-lists__header bg-color">
                                         <h2>Episodes</h2>
-                                        <label htmlFor="ep-select"></label>
+                                        <select
+                                            name="ep-list"
+                                            id="ep_list"
+                                            value={selectedChunk}
+                                            className="episode-select"
+                                            onChange={handleEpisodeSelect}
+                                        >
+                                            {" "}
+                                            {episodeLists &&
+                                                episodeLists.map((episodeChunk, i) => {
+                                                    // console.log(episodeChunk);
+                                                    return (
+                                                        <option
+                                                            className="episde-option"
+                                                            key={`${episodeChunk[0].number}-${i}`}
+                                                            value={i}
+                                                        >{`${episodeChunk[0].number} - ${
+                                                            episodeChunk[episodeChunk.length - 1].number
+                                                        }`}</option>
+                                                    );
+                                                })}
+                                        </select>
                                     </div>
                                     <div className="episode-lists__container">
-                                        {aniInfo.episodes?.map(
-                                            ({ id: epId, title, number, image }, index) => {
-                                                return (
-                                                    <NavLink
-                                                        key={`${epId}${index}`}
-                                                        to={`/watch/${aniInfo.id}?watching=${epId}`}
-                                                    >
-                                                        <EpisodeCard
-                                                            data={{
-                                                                id: epId,
-                                                                title,
-                                                                number,
-                                                                image,
-                                                            }}
-                                                        ></EpisodeCard>
-                                                    </NavLink>
-                                                );
-                                            }
-                                        )}
+                                        {episodeLists &&
+                                            episodeLists[selectedChunk]?.map(
+                                                ({ id: epId, title, number, image }, index) => {
+                                                    return (
+                                                        <NavLink
+                                                            key={`${epId}${index}`}
+                                                            to={`/watch/${aniInfo.id}?watching=${epId}`}
+                                                        >
+                                                            <EpisodeCard
+                                                                data={{
+                                                                    id: epId,
+                                                                    title,
+                                                                    number,
+                                                                    image,
+                                                                }}
+                                                            ></EpisodeCard>
+                                                        </NavLink>
+                                                    );
+                                                }
+                                            )}
                                     </div>
                                 </div>
                                 <div className="related-container bg-color">
@@ -268,12 +273,12 @@ const Animeinfopage = ({ instance }) => {
                                                     } = reccomendation;
 
                                                     return (
-                                                        <SwiperSlide
-                                                            key={`${reccomendation.id}-${romaji}`}
-                                                        >
+                                                        <SwiperSlide key={`${reccomendation.id}-${romaji}`}>
                                                             <NavLink
                                                                 to={`/info/${id}`}
-                                                                onClick={() => setLoading(true)}
+                                                                onClick={(e) => {
+                                                                    setLoading(true);
+                                                                }}
                                                             >
                                                                 <Card
                                                                     data={{

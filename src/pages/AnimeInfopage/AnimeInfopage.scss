@@ -260,7 +260,7 @@
         border-radius: 10px;
         padding: $p-1;
         margin-bottom: $p-1;
-
+        @include display-flex(center, space-between);
         h2 {
             color: $white;
             font-size: font-size(fs-22);
@@ -277,6 +277,51 @@
 
     @include breakpoint(md, min) {
         grid-template-columns: 2fr 1fr;
+    }
+}
+
+// episode list select dropdown
+
+.episode-select-container {
+    position: relative;
+}
+.episode-select {
+    color: $white;
+    padding: $p-0_5 $p-1;
+    background: $mid-grey;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    outline: 1px solid $grey;
+
+    span {
+        margin-right: $p-1_5;
+    }
+    .svg-inline--fa {
+        margin-right: $p-0;
+    }
+}
+.episde-option {
+    background: $grey;
+    border: none;
+    border-width: 0;
+    border-radius: 5px;
+    padding: $p-0;
+    margin-top: 10px;
+    cursor: pointer;
+    z-index: 2;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 100%;
+
+    &__item {
+        color: $white;
+        margin-bottom: $p-0_5;
+
+        &:last-child {
+            margin-bottom: $p-0;
+        }
     }
 }
 
