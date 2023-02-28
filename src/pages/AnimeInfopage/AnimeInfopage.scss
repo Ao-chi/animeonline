@@ -23,8 +23,8 @@
 
             background: rgba(0, 0, 0, 0.08);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(2.1px);
-            -webkit-backdrop-filter: blur(2.1px);
+            // backdrop-filter: blur(2.1px);
+            // -webkit-backdrop-filter: blur(2.1px);
 
             &::after {
                 content: "";
@@ -70,6 +70,13 @@
 
     @include breakpoint(sm, min) {
         padding-bottom: 420px !important;
+
+        .cover {
+            .overlay--blur {
+                backdrop-filter: blur(2.1px);
+                -webkit-backdrop-filter: blur(2.1px);
+            }
+        }
     }
 }
 
@@ -106,7 +113,7 @@
         }
 
         .title {
-            font-size: font-size(fs-32);
+            font-size: font-size(fs-22);
             font-weight: font-weight(font-bold);
             margin-bottom: $p-0_5;
         }
@@ -155,7 +162,7 @@
 
     &__description {
         p {
-            font-size: font-size(fs-18);
+            font-size: font-size(fs-16);
         }
     }
 
@@ -168,6 +175,9 @@
         }
 
         &__title {
+            .title {
+                font-size: font-size(fs-32);
+            }
             .title,
             .other-titles {
                 text-align: left;
@@ -206,9 +216,28 @@
     }
 
     &__val {
-        font-size: font-size(fs-16);
+        font-size: font-size(fs-14);
         font-weight: font-weight(font-bold);
         margin-bottom: $p-0;
+    }
+
+    @include breakpoint(md, min) {
+        &__wrapper {
+            flex-direction: column;
+        }
+
+        &__key {
+            color: $grayish-blue;
+            font-size: font-size(fs-14);
+            font-weight: font-weight(font-boldm);
+            margin-bottom: 2px;
+        }
+
+        &__val {
+            font-size: font-size(fs-16);
+            font-weight: font-weight(font-bold);
+            margin-bottom: $p-0;
+        }
     }
 }
 

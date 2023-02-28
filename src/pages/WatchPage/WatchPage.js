@@ -70,7 +70,7 @@ const WatchPage = ({ instance }) => {
                                         pip: false,
                                         autoSize: true,
                                         autoMini: true,
-                                        // screenshot: true,
+                                        autoOrientation: true,
                                         flip: true,
                                         playbackRate: true,
                                         aspectRatio: true,

@@ -17,6 +17,8 @@ const Animeinfopage = ({ instance }) => {
     const [loading, setLoading] = useState(true);
     // console.log(animeId);
     const [showFullDesc, setShowFullDesc] = useState(false);
+    const [episodeLists, setEpisodeLists] = useState();
+    const [selectedChunk, setSelectedChunk] = useState(0);
 
     const toggleDescription = () => {
         setShowFullDesc(!showFullDesc);
@@ -60,8 +62,11 @@ const Animeinfopage = ({ instance }) => {
             setLoading(false);
         };
         fetchAniInfo();
+        const episodeListChunk = [];
+        if (aniInfo.episodes && aniInfo.episodes.length > 24) {
+            episodeListChunk.push(aniInfo.episodes.slice(0, 24));
+        }
     }, [instance, animeId]);
-
     return (
         <>
             {loading ? (
@@ -165,7 +170,10 @@ const Animeinfopage = ({ instance }) => {
                                             <p className="other-details__val">
                                                 {aniInfo.totalEpisodes}
                                             </p>
-                                            <p>{aniInfo.subOrDub}</p>
+                                        </div>
+                                        <div className="other-details__wrapper">
+                                            <p className="other-details__key">sub or Dub:</p>
+                                            <p className="other-details__val">{aniInfo.subOrDub}</p>
                                         </div>
                                         <div>
                                             <p></p>
@@ -177,6 +185,7 @@ const Animeinfopage = ({ instance }) => {
                                 <div className="episode-lists__wrapper">
                                     <div className="episode-lists__header bg-color">
                                         <h2>Episodes</h2>
+                                        <label htmlFor="ep-select"></label>
                                     </div>
                                     <div className="episode-lists__container">
                                         {aniInfo.episodes?.map(

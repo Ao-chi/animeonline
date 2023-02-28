@@ -3,7 +3,7 @@ import Artplayer from "artplayer";
 import Hls from "hls.js";
 import artplayerPluginHlsQuality from "artplayer-plugin-hls-quality";
 import artplayerPluginControl from "artplayer-plugin-control";
-import "./artplayer.scss";
+import "./player.scss";
 
 export default function Player({ option, videoUrl, getInstance, ...rest }) {
     const artRef = useRef();

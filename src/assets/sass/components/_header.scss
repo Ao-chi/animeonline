@@ -71,8 +71,7 @@
     &__icon {
         width: 70%;
         height: 45px;
-        margin-left: $p-0;
-        margin-right: 5px;
+        margin: $p-0 auto;
         overflow: hidden;
         cursor: pointer;
     }
@@ -118,10 +117,10 @@
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
 
-            background: rgba(41, 41, 41, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            // background: rgba(41, 41, 41, 0.8);
+            // box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            // backdrop-filter: blur(4px);
+            // -webkit-backdrop-filter: blur(4px);
 
             input[type="text"] {
                 width: 100%;
@@ -420,7 +419,7 @@
         }
         &__icon {
             width: 90%;
-            margin-left: -10px;
+            margin-left: -5px;
         }
     }
 }

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-const Search = () => {
+const Search = ({ className = "" }) => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -99,7 +99,7 @@ const Search = () => {
 
     return (
         <form
-            className="header__search"
+            className={`header__search ${className} `}
             id="searchAni"
             action="submit"
             onSubmit={handleSubmit}

@@ -8,9 +8,14 @@ import { useState, useEffect } from "react";
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const [isSeacrhOpen, setisSearchOpen] = useState(false);
 
     const handleNavClick = () => {
         setIsNavOpen(!isNavOpen);
+    };
+
+    const handleSearch = () => {
+        setisSearchOpen(!isSeacrhOpen);
     };
 
     useEffect(() => {
@@ -21,9 +26,11 @@ const Header = () => {
             if (window.scrollY >= 100) {
                 setIsScrolled(true);
                 header.classList.add("sticky");
+                searchForm.classList.remove("active");
             } else if (window.scrollY <= 0) {
                 setIsScrolled(false);
                 header.classList.remove("sticky");
+                searchForm.classList.add("active");
             }
         };
 
@@ -32,7 +39,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header className={`header ${isScrolled ? "sticky" : ""}`}>
+        <header className={`header ${isScrolled || isSeacrhOpen ? "sticky " : ""}`}>
             <div className="container">
                 <button
                     className={`hamburger${isNavOpen ? " active" : ""}`}
@@ -75,12 +82,13 @@ const Header = () => {
                         </li>
                     </ul>
                 </nav>
-                <Search />
+                <Search className={isSeacrhOpen ? " show" : ""} />
                 <div className="mobile-search">
                     <button
-                        className="search_btn mobile-search__btn"
+                        className={`search_btn mobile-search__btn ${isSeacrhOpen ? "open" : ""}`}
                         id="mobileSearch"
                         type="button"
+                        onClick={handleSearch}
                     >
                         <FontAwesomeIcon icon={faSearch} className=""></FontAwesomeIcon>
                     </button>
