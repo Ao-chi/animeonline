@@ -1,7 +1,6 @@
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import Card from "../Card";
 import Pagination from "./Pagination";
 
 const RecentAnime = ({ recentAnime, totalPages, currentPage, handlePagination, loading }) => {
@@ -50,7 +49,7 @@ const RecentAnime = ({ recentAnime, totalPages, currentPage, handlePagination, l
                                             i
                                         ) => (
                                             <li className="card__items" key={i}>
-                                                <Link>
+                                                <Link to={`/watch/${id}?watching=${episodeId}`}>
                                                     <div className="card">
                                                         <div className="card__img">
                                                             <div className="card__overlay"></div>
@@ -58,10 +57,7 @@ const RecentAnime = ({ recentAnime, totalPages, currentPage, handlePagination, l
                                                                 className="card__play"
                                                                 icon={faPlay}
                                                             ></FontAwesomeIcon>
-                                                            <img
-                                                                src={image}
-                                                                alt={(romaji, episodeNumber)}
-                                                            />
+                                                            <img src={image} alt={(romaji, episodeNumber)} />
                                                             <div className="card__episode">
                                                                 <p>EP {episodeNumber}</p>
                                                             </div>
@@ -69,8 +65,7 @@ const RecentAnime = ({ recentAnime, totalPages, currentPage, handlePagination, l
                                                         <div className="card__title">
                                                             <p>
                                                                 {romaji.length > 30
-                                                                    ? romaji.substring(0, 25) +
-                                                                      "..."
+                                                                    ? romaji.substring(0, 25) + "..."
                                                                     : romaji}
                                                             </p>
                                                         </div>

@@ -9,9 +9,8 @@ import Card from "../../components/Card";
 import EpisodeCard from "../../components/Episode-Card/Episode-Card";
 import RelatedCard from "../../components/Related-card/RelatedCard";
 
-import "./AnimeInfopage.scss";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import AnimeinfoSkeleton from "../../components/AnimeinfopageSkeleton/Animeinfoskeleton";
+import "./AnimeInfopage.scss";
 
 const Animeinfopage = ({ instance }) => {
     const { animeId } = useParams();
@@ -20,15 +19,18 @@ const Animeinfopage = ({ instance }) => {
     const [showFullDesc, setShowFullDesc] = useState(false);
     const [episodeLists, setEpisodeLists] = useState(null);
     const [selectedChunk, setSelectedChunk] = useState(0);
-    const [selectOpen, setSelectOpen] = useState(false);
-    const [selectedPlaceholder, setSelectedPlaceholder] = useState();
+    // const [selectOpen, setSelectOpen] = useState(false);
+    // const [selectedPlaceholder, setSelectedPlaceholder] = useState();
 
     console.log();
     const toggleDescription = () => {
         setShowFullDesc(!showFullDesc);
     };
 
+    // const buttonClasses = showFullDesc ? "active" : "";
+    // const buttonText = showFullDesc ? "Read Less" : "Read More";
     const buttonClasses = showFullDesc ? "active" : "";
+    const descriptionLength = aniInfo.description && aniInfo.description.replace(/<br>/g, "").length;
     const buttonText = showFullDesc ? "Read Less" : "Read More";
 
     useEffect(() => {
@@ -54,10 +56,11 @@ const Animeinfopage = ({ instance }) => {
                 }
                 setSelectedChunk(0);
                 setEpisodeLists(episodeListChunk);
+                console.log(aniInfo);
             }
         };
         episodeListUpdate();
-    }, [setEpisodeLists, aniInfo.episodes]);
+    }, [setEpisodeLists, aniInfo.episodes, aniInfo]);
 
     const handleEpisodeSelect = (e) => {
         setSelectedChunk(e.target.value);
@@ -116,7 +119,7 @@ const Animeinfopage = ({ instance }) => {
                                             </p>
                                         </div>
                                         <div className="anime__description">
-                                            <p
+                                            {/* <p
                                                 className={showFullDesc ? "show" : ""}
                                                 dangerouslySetInnerHTML={{
                                                     __html: showFullDesc
@@ -134,7 +137,28 @@ const Animeinfopage = ({ instance }) => {
                                                 onClick={toggleDescription}
                                             >
                                                 {buttonText}
-                                            </button>
+                                            </button> */}
+                                            <p
+                                                className={showFullDesc ? "show" : ""}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: showFullDesc
+                                                        ? aniInfo.description &&
+                                                          aniInfo.description.replace(/<br>/g, "")
+                                                        : aniInfo.description &&
+                                                          `${aniInfo.description
+                                                              .substring(0, 300)
+                                                              .replace(/<br>/g, "")}...`,
+                                                }}
+                                            />
+                                            {descriptionLength > 300 && (
+                                                <button
+                                                    className={buttonClasses}
+                                                    aria-label="Read more"
+                                                    onClick={toggleDescription}
+                                                >
+                                                    {buttonText}
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="other-details">
@@ -278,6 +302,7 @@ const Animeinfopage = ({ instance }) => {
                                                                 to={`/info/${id}`}
                                                                 onClick={(e) => {
                                                                     setLoading(true);
+                                                                    toggleDescription();
                                                                 }}
                                                             >
                                                                 <Card

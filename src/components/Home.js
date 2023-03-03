@@ -14,6 +14,7 @@ const Home = ({ instance }) => {
     const [recentAnime, setRecentAnime] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [animeId, setAnimeId] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
@@ -22,7 +23,7 @@ const Home = ({ instance }) => {
             try {
                 const response = await getPopularAnime();
                 setPopularAnime(response);
-                console.log(response);
+                // console.log(response);
             } catch (err) {
                 console.log(err);
             }
@@ -47,22 +48,20 @@ const Home = ({ instance }) => {
         const perPage = 20;
         const fetchRecentAni = async () => {
             try {
-                // const response = await axios.get(
-                //     `https://cors.consumet.stream/https://api.consumet.org/meta/anilist/recent-episodes?page=${currentPage}&perPage=${perPage}&provider=zoro`
-                // );
-                const response = await axios.get(
-                    `https://api.consumet.org/meta/anilist/recent-episodes?`,
-                    {
-                        params: {
-                            page: `${currentPage}`,
-                            perPage: `${perPage}`,
-                            provider: "zoro",
-                        },
-                    }
-                );
+                const response = await axios.get(`https://api.consumet.org/meta/anilist/recent-episodes?`, {
+                    params: {
+                        page: `${currentPage}`,
+                        perPage: `${perPage}`,
+                        provider: "zoro",
+                    },
+                });
                 setRecentAnime(response.data.results);
+
                 const sumPages = Math.ceil(response.data.totalResults / perPage);
                 setTotalPages(sumPages);
+
+                const aniInfo = response.data.results;
+                setAnimeId(aniInfo);
             } catch (err) {
                 console.log(err);
             }
@@ -73,6 +72,7 @@ const Home = ({ instance }) => {
     function handlePagination(currentPage) {
         setCurrentPage(currentPage);
     }
+    console.log(animeId);
 
     return (
         <main className="home-main">
@@ -84,6 +84,7 @@ const Home = ({ instance }) => {
                 totalPages={totalPages}
                 currentPage={currentPage}
                 handlePagination={handlePagination}
+                animeId={animeId}
             />
         </main>
     );

@@ -8,7 +8,7 @@ import "./player.scss";
 export default function Player({ option, videoUrl, getInstance, ...rest }) {
     const artRef = useRef();
 
-    console.log("videoUrl in child:", videoUrl);
+    // console.log("videoUrl in child:", videoUrl);
 
     useEffect(() => {
         function playM3u8(video, url, art) {

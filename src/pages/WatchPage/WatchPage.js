@@ -18,6 +18,9 @@ const WatchPage = ({ instance }) => {
     const [loading, setLoading] = useState(true);
     const [episodeList, setEpisodeList] = useState([]);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
+    const [episodeLists, setEpisodeLists] = useState(null);
+    const [selectedChunk, setSelectedChunk] = useState(0);
+
     const [videoUrl, setVideoUrl] = useState([]);
 
     useEffect(() => {
@@ -30,27 +33,45 @@ const WatchPage = ({ instance }) => {
         };
 
         const getSources = async () => {
-            const response = await axios.get(
-                `https://api.consumet.org/meta/anilist/watch/${watching}`
-            );
+            const response = await axios.get(`https://api.consumet.org/meta/anilist/watch/${watching}`);
 
             setSelectedEpisode(watching);
             setVideoUrl(response.data.sources);
             setLoading(false);
         };
 
-        if (selectedEpisode === watching) {
-            console.log(`selectedEpisode is: ${selectedEpisode} and current: ${watching}`);
-        }
+        // if (selectedEpisode === watching) {
+        //     // console.log(`selectedEpisode is: ${selectedEpisode} and current: ${watching}`);
+        // }
         getEpisodes();
         getSources();
-    }, [animeId, watching]);
-    console.log(selectedEpisode);
+    }, [animeId, watching, instance, selectedEpisode]);
+
+    // devide episodes morethan 24 into chunks
+    useEffect(() => {
+        const episodeListUpdate = () => {
+            const episodeListChunk = [];
+            if (episodeList.episodes) {
+                for (let i = 0; i < episodeList.episodes.length; i += 24) {
+                    episodeListChunk.push(episodeList.episodes.slice(i, i + 24));
+                }
+                setSelectedChunk(0);
+                setEpisodeLists(episodeListChunk);
+                // console.log(episodeList);
+            }
+        };
+        episodeListUpdate();
+    }, [setEpisodeLists, episodeList.episodes]);
+    const handleEpisodeSelect = (e) => {
+        setSelectedChunk(e.target.value);
+        console.log(selectedChunk);
+    };
     return (
         <>
             <main>
                 <section className="watch-player container">
                     <h1>Watchpage</h1>
+
                     {loading ? (
                         <>
                             <div>
@@ -100,10 +121,54 @@ const WatchPage = ({ instance }) => {
                     <div className="episode-lists__wrapper">
                         <div className="episode-lists__header bg-color">
                             <h2>Episodes</h2>
+                            <select
+                                name="ep-list"
+                                id="ep_list"
+                                value={selectedChunk}
+                                className="episode-select"
+                                onChange={handleEpisodeSelect}
+                            >
+                                {" "}
+                                {episodeLists &&
+                                    episodeLists.map((episodeChunk, i) => {
+                                        console.log(episodeChunk);
+                                        return (
+                                            <option
+                                                className="episde-option"
+                                                key={`${episodeChunk[0].number}-${i}`}
+                                                value={i}
+                                            >{`${episodeChunk[0].number} - ${
+                                                episodeChunk[episodeChunk.length - 1].number
+                                            }`}</option>
+                                        );
+                                    })}
+                            </select>
                         </div>
                         <div className="episode-lists__container">
-                            {episodeList.episodes &&
-                                episodeList.episodes?.map(
+                            {/* {episodeList.episodes &&
+                                episodeList.episodes?.map(({ id: epId, title, number, image }, index) => {
+                                    return (
+                                        <Link
+                                            className={`episode-lists__item ${
+                                                watching === epId ? "active" : ""
+                                            }`}
+                                            key={`${epId}${index}`}
+                                            to={`/watch/${animeId}?watching=${epId}`}
+                                            onClick={() => setLoading(true)}
+                                        >
+                                            <EpisodeCard
+                                                data={{
+                                                    id: epId,
+                                                    title,
+                                                    number,
+                                                    image,
+                                                }}
+                                            ></EpisodeCard>
+                                        </Link>
+                                    );
+                                })} */}
+                            {episodeLists &&
+                                episodeLists[selectedChunk]?.map(
                                     ({ id: epId, title, number, image }, index) => {
                                         return (
                                             <Link
@@ -111,8 +176,7 @@ const WatchPage = ({ instance }) => {
                                                     watching === epId ? "active" : ""
                                                 }`}
                                                 key={`${epId}${index}`}
-                                                to={`/watch/${animeId}?watching=${epId}`}
-                                                onClick={() => setLoading(true)}
+                                                to={`/watch/${episodeList.id}?watching=${epId}`}
                                             >
                                                 <EpisodeCard
                                                     data={{
@@ -167,10 +231,7 @@ const WatchPage = ({ instance }) => {
 
                                         return (
                                             <SwiperSlide key={`${reccomendation.id}-${romaji}`}>
-                                                <NavLink
-                                                    to={`/info/${id}`}
-                                                    onClick={() => setLoading(true)}
-                                                >
+                                                <NavLink to={`/info/${id}`} onClick={() => setLoading(true)}>
                                                     <Card
                                                         data={{
                                                             id,

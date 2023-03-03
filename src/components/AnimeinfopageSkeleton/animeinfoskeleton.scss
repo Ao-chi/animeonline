@@ -53,6 +53,6 @@
 .anime {
     &__img {
         width: 200px;
-        height: 100%;
+        height: min-content;
     }
 }
