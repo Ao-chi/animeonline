@@ -72,7 +72,7 @@ const Home = ({ instance }) => {
     function handlePagination(currentPage) {
         setCurrentPage(currentPage);
     }
-    console.log(animeId);
+    // console.log(animeId);
 
     return (
         <main className="home-main">

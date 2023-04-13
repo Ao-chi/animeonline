@@ -9,7 +9,7 @@ export default function Player({ option, videoUrl, getInstance, ...rest }) {
     const artRef = useRef();
 
     // console.log("videoUrl in child:", videoUrl);
-
+    const proxyUrl = "https://cors.zimjs.com/";
     useEffect(() => {
         function playM3u8(video, url, art) {
             if (Hls.isSupported()) {
@@ -35,12 +35,13 @@ export default function Player({ option, videoUrl, getInstance, ...rest }) {
                     sources.quality === "backup" ||
                     sources.quality === "default"
             )?.url;
+        const m3u8Url = `${proxyUrl}${vidSource}`;
 
         var art = new Artplayer({
             ...option,
             container: artRef.current,
 
-            url: vidSource,
+            url: m3u8Url,
             type: "m3u8",
             customType: {
                 m3u8: playM3u8,
@@ -55,7 +56,7 @@ export default function Player({ option, videoUrl, getInstance, ...rest }) {
                 }),
             ],
         });
-
+    
         return () => {
             if (art && art.destroy) {
                 art.destroy(false);

@@ -29,11 +29,13 @@ const WatchPage = ({ instance }) => {
 
             const data = response.data;
             setEpisodeList(data);
-            // console.log(data);
+            console.log(data);
         };
 
         const getSources = async () => {
-            const response = await axios.get(`https://api.consumet.org/meta/anilist/watch/${watching}`);
+            const response = await axios.get(
+                `https://cors.zimjs.com/https://api.consumet.org/meta/anilist/watch/${watching}`
+            );
 
             setSelectedEpisode(watching);
             setVideoUrl(response.data.sources);
