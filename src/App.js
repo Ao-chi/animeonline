@@ -8,10 +8,12 @@ import Home from "./components/Home";
 import Animeinfopage from "./pages/AnimeInfopage/Animeinfopage";
 import SearchResults from "./pages/SearchResultspage/SearchResults";
 import WatchPage from "./pages/WatchPage/WatchPage";
+import AdvanceSearchPage from "./pages/advancedSearchPage/AdvanceSearchPage";
+import { BASE_URL } from "./constants";
 
 function App() {
     const instance = axios.create({
-        baseURL: "https://api.consumet.org/meta/anilist/",
+        baseURL: BASE_URL,
     });
 
     return (
@@ -20,17 +22,15 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home instance={instance} />}></Route>
-                    <Route
-                        path="/info/:animeId"
-                        element={<Animeinfopage instance={instance} />}
-                    ></Route>
+                    <Route path="/info/:animeId" element={<Animeinfopage instance={instance} />}></Route>
                     <Route
                         path="/search/:searchQuery"
                         element={<SearchResults instance={instance} />}
                     ></Route>
+                    <Route path="/watch/:animeId" element={<WatchPage instance={instance} />}></Route>
                     <Route
-                        path="/watch/:animeId"
-                        element={<WatchPage instance={instance} />}
+                        path="/genre/:animeGenre"
+                        element={<AdvanceSearchPage instance={instance} />}
                     ></Route>
                 </Routes>
             </div>

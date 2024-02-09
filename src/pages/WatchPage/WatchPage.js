@@ -10,6 +10,7 @@ import { Link, NavLink } from "react-router-dom";
 import EpisodeCard from "../../components/Episode-Card/Episode-Card";
 
 import "./watchpage.scss";
+import { BASE_URL } from "../../constants";
 
 const WatchPage = ({ instance }) => {
     const { animeId } = useParams();
@@ -25,16 +26,17 @@ const WatchPage = ({ instance }) => {
 
     useEffect(() => {
         const getEpisodes = async () => {
-            const response = await instance.get(`info/${animeId}?provider=gogoanime?isDub=false`);
+            const response = await instance.get(`/meta/info/${animeId}?provider=gogoanime?isDub=false`);
 
             const data = response.data;
             setEpisodeList(data);
-            console.log(data);
+            // console.log(data);
         };
 
         const getSources = async () => {
             const response = await axios.get(
-                `https://cors.zimjs.com/https://api.consumet.org/meta/anilist/watch/${watching}`
+                // `https://cors.zimjs.com/https://api.consumet.org/meta/anilist/watch/${watching}`
+                `${BASE_URL}/watch/${watching}`
             );
 
             setSelectedEpisode(watching);
@@ -72,7 +74,7 @@ const WatchPage = ({ instance }) => {
         <>
             <main>
                 <section className="watch-player container">
-                    <h1>Watchpage</h1>
+                    <h1>You're Watching</h1>
 
                     {loading ? (
                         <>

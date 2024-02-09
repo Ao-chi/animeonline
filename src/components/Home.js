@@ -5,10 +5,9 @@ import { getPopularAnime, getTrendingAnime } from "../utils/data";
 import PopularAnime from "./PopularAnimes";
 import RecentAnime from "./RecentAnime/RecentAnime";
 import TrendingAnime from "./TrendingAnime/TrendingAnime";
+import { BASE_URL } from "../constants";
 
 const Home = ({ instance }) => {
-    // const baseURL = "https://api.consumet.org/";
-
     const [popularAnime, setPopularAnime] = useState([]);
     const [trendingAnime, setTrendingAnime] = useState([]);
     const [recentAnime, setRecentAnime] = useState([]);
@@ -48,11 +47,11 @@ const Home = ({ instance }) => {
         const perPage = 20;
         const fetchRecentAni = async () => {
             try {
-                const response = await axios.get(`https://api.consumet.org/meta/anilist/recent-episodes?`, {
+                const response = await axios.get(`${BASE_URL}/recent-episode?`, {
                     params: {
                         page: `${currentPage}`,
                         perPage: `${perPage}`,
-                        provider: "zoro",
+                        provider: "gogoanime",
                     },
                 });
                 setRecentAnime(response.data.results);
@@ -62,6 +61,7 @@ const Home = ({ instance }) => {
 
                 const aniInfo = response.data.results;
                 setAnimeId(aniInfo);
+                console.log(response.data.results);
             } catch (err) {
                 console.log(err);
             }

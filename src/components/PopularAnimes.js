@@ -52,15 +52,11 @@ const PopularAnime = ({ popularAnime }) => {
                                         </div>
                                         <div className="popular-card__episode">
                                             <p>
-                                                <FontAwesomeIcon
-                                                    icon={faCirclePlay}
-                                                ></FontAwesomeIcon>
+                                                <FontAwesomeIcon icon={faCirclePlay}></FontAwesomeIcon>
                                                 {type}
                                             </p>
                                             <p>
-                                                <FontAwesomeIcon
-                                                    icon={faCalendar}
-                                                ></FontAwesomeIcon>
+                                                <FontAwesomeIcon icon={faCalendar}></FontAwesomeIcon>
                                                 {releaseDate}
                                             </p>
                                             <p>
@@ -87,9 +83,7 @@ const PopularAnime = ({ popularAnime }) => {
                                                 className="episodes__links popular-card__watch--btn"
                                                 to={`/info/${id}`}
                                             >
-                                                <FontAwesomeIcon
-                                                    icon={faCirclePlay}
-                                                ></FontAwesomeIcon>
+                                                <FontAwesomeIcon icon={faCirclePlay}></FontAwesomeIcon>
                                                 Watch Now
                                             </Link>
                                         </div>

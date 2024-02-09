@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../constants";
 
 const Search = ({ className = "" }) => {
     const navigate = useNavigate();
@@ -37,7 +38,8 @@ const Search = ({ className = "" }) => {
                 setData([]);
                 if (debouncedSearchTerm.length > 0) {
                     const response = await axios.get(
-                        `https://api.consumet.org/meta/anilist/advanced-search?query=${debouncedSearchTerm}`
+                        // `https://api.consumet.org/meta/anilist/advanced-search?query=${debouncedSearchTerm}`,
+                        `${BASE_URL}/advanced-search?query=${debouncedSearchTerm}`
                     );
 
                     const results =
@@ -139,17 +141,10 @@ const Search = ({ className = "" }) => {
                                     rating,
                                 }) => {
                                     return (
-                                        <Link
-                                            to={`/info/${id}`}
-                                            key={id}
-                                            onClick={() => setSearchQuery("")}
-                                        >
+                                        <Link to={`/info/${id}`} key={id} onClick={() => setSearchQuery("")}>
                                             <li className="search__lists result">
                                                 <div className="result__img">
-                                                    <img
-                                                        src={image}
-                                                        alt={`${romaji}-image-poster`}
-                                                    />
+                                                    <img src={image} alt={`${romaji}-image-poster`} />
                                                 </div>
                                                 <div className="result__details">
                                                     <h5>{romaji}</h5>
@@ -162,9 +157,7 @@ const Search = ({ className = "" }) => {
                                                         <p className="type-rating">
                                                             <span>{type}</span>
                                                             <span className="dot"></span>
-                                                            <FontAwesomeIcon
-                                                                icon={faStar}
-                                                            ></FontAwesomeIcon>
+                                                            <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                                                             <span>{rating / (10).toFixed(1)}</span>
                                                         </p>
                                                     </div>

@@ -37,7 +37,7 @@ const Animeinfopage = ({ instance }) => {
         const fetchAniInfo = async () => {
             setLoading(true);
             if (animeId.length > 0) {
-                const data = await instance.get(`info/${animeId}?provider=gogoanime?isDub=false`);
+                const data = await instance.get(`meta/info/${animeId}?provider=gogoanime?isDub=false`);
                 setAniInfo(data.data);
                 setLoading(false);
             }
@@ -103,7 +103,11 @@ const Animeinfopage = ({ instance }) => {
                                         {aniInfo.genres && (
                                             <div className="anime__genres">
                                                 {aniInfo.genres.map((genre) => {
-                                                    return <Link key={genre}>{genre}</Link>;
+                                                    return (
+                                                        <Link key={genre} to={`/genre/${genre}`}>
+                                                            {genre}
+                                                        </Link>
+                                                    );
                                                 })}
                                             </div>
                                         )}

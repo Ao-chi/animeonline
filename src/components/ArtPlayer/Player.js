@@ -35,7 +35,8 @@ export default function Player({ option, videoUrl, getInstance, ...rest }) {
                     sources.quality === "backup" ||
                     sources.quality === "default"
             )?.url;
-        const m3u8Url = `${proxyUrl}${vidSource}`;
+        // const m3u8Url = `${proxyUrl}${vidSource}`;
+        const m3u8Url = `${vidSource}`;
 
         var art = new Artplayer({
             ...option,
@@ -56,7 +57,7 @@ export default function Player({ option, videoUrl, getInstance, ...rest }) {
                 }),
             ],
         });
-    
+
         return () => {
             if (art && art.destroy) {
                 art.destroy(false);
